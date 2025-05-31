@@ -20,6 +20,13 @@ jobs:
     runs-on: docker
     
     steps:
+      - name: Checkout
+        uses: Actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
       - name: Compose File Check
         run: |
             echo "::group::Checking ....."
