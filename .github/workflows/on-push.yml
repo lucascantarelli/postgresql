@@ -1,0 +1,30 @@
+name: on-push
+run-name: ${{ github.event.commits.message }}
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  workflow_dispatch:
+    
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check
+    timeout-minutes: 1
+    runs-on: docker
+    
+    steps:
+      - name: Compose File Check
+        run: |
+            echo "::group::Checking ....."
+            docker compose config
+            echo "::endgroup::"
+
+      - name: Log execution
+        run: echo "Execution time was ${{ steps.hello.outputs.time }}"
